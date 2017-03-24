@@ -1,0 +1,18 @@
+APP="sheregesh"
+
+BUILD_HOST="ub"
+BUILD_USER="erl"
+BUILD_AT="/tmp/edeliver/sheregesh/builds"
+
+STAGING_HOSTS="ub"
+STAGING_USER="erl"
+DELIVER_TO="/home/erl/sheregesh"
+
+pre_erlang_get_and_update_deps() {
+  local _prod_secret_path="/home/erl/secrets/sheregesh.secret.exs"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    __sync_remote "
+      ln -sfn '$_prod_secret_path' '$BUILD_AT/config/secret.exs'
+    "
+  fi
+}
