@@ -36,11 +36,13 @@ defmodule Tgchats do
   end
 
   def handle_cast({:add_chat, chat}, table) do
+    Logger.debug "#{__MODULE__} adding chat #{inspect chat}"
     :dets.insert(table, {chat.id, chat})
     {:noreply, table}
   end
 
   def handle_cast({:remove_chat, chat_id}, table) do
+    Logger.debug "#{__MODULE__} removing chat #{chat_id}"
     :dets.delete(table, chat_id)
     {:noreply, table}
   end

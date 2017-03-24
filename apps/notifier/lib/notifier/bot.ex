@@ -2,7 +2,7 @@ defmodule Notifier.Bot do
   require Logger
   use GenServer
 
-  @bot Application.get_env(:notifier, :bot, "qmonibot")
+  @bot Application.get_env(:notifier, :bot)
 
   def start_link() do
     Logger.debug "Starting #{__MODULE__}"
