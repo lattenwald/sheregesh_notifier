@@ -51,4 +51,6 @@ defmodule Storage do
     {:reply, data, table}
   end
 
+  def terminate(_reason, table), do: :dets.close(table)
+
 end
