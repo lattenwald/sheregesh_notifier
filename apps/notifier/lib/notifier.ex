@@ -12,7 +12,7 @@ defmodule Notifier do
     opts = [parse_mode: "Markdown", disable_web_page_preview: true]
     opts = case chat.type do
              "private" -> opts
-             _         -> [{:disable_notification, false} | opts]
+             _         -> [{:disable_notification, true} | opts]
            end
     spawn fn ->
       {:ok, _} = Nadia.send_message(
