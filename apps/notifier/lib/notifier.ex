@@ -4,20 +4,24 @@ defmodule Notifier do
   def notify(key, date, data) do
     # Logger.debug "#{__MODULE__} ::: #{key} #{date} #{data}"
     for c <- Tgchats.list_chats do
-      notify(c.id, key, date, data)
+      notify(c, key, date, data)
     end
   end
 
-  def notify(chat_id, key, date, data) do
+  def notify(chat, key, date, data) do
+    opts = [pare_mode: "Markdown", disable_web_page_preview: true]
+    opts = case chat.type do
+             "private" -> opts
+             _         -> [{:disable_notification, false} | opts]
+           end
     spawn fn ->
       {:ok, _} = Nadia.send_message(
-        chat_id, """
+        chat.id, """
         *#{key}* #{date}
 
         #{data}
         """,
-      parse_mode: "Markdown",
-      disable_web_page_preview: true
+      opts
     )
     end
   end

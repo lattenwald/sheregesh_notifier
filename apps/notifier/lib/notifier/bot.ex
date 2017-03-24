@@ -37,7 +37,7 @@ defmodule Notifier.Bot do
     Tgchats.add_chat(chat)
 
     for {key, {date, data}} <- Storage.get_latest do
-      Notifier.notify(chat.id, key, date, data)
+      Notifier.notify(chat, key, date, data)
     end
 
   end
