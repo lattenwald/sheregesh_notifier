@@ -1,5 +1,5 @@
 defmodule Checker do
-  @period 5*60*1000
+  @period Application.get_env(:checker, :period, 15)*60*1000
 
   require Logger
   use GenServer
