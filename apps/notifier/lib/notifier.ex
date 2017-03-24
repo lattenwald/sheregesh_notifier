@@ -9,7 +9,7 @@ defmodule Notifier do
   end
 
   def notify(chat, key, date, data) do
-    opts = [pare_mode: "Markdown", disable_web_page_preview: true]
+    opts = [parse_mode: "Markdown", disable_web_page_preview: true]
     opts = case chat.type do
              "private" -> opts
              _         -> [{:disable_notification, false} | opts]
