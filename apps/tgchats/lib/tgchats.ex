@@ -1,10 +1,8 @@
 defmodule Tgchats do
-  @table :tgchats
-
   use GenServer
   require Logger
 
-  def start_link(table_name \\ @table) do
+  def start_link(table_name) do
     GenServer.start_link(__MODULE__, table_name, name: __MODULE__)
   end
 

@@ -11,7 +11,8 @@ defmodule Tgchats.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     aliases: aliases()]
   end
 
   # Configuration for the OTP application
@@ -38,5 +39,11 @@ defmodule Tgchats.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     []
+  end
+
+  defp aliases do
+    [
+      test: "test --no-start"
+    ]
   end
 end

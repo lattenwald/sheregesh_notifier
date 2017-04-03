@@ -8,11 +8,13 @@ defmodule Tgchats.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    table = Application.get_env(:tgchats, :table, :tgchats)
+
     # Define workers and child supervisors to be supervised
     children = [
       # Starts a worker by calling: Tgchats.Worker.start_link(arg1, arg2, arg3)
       # worker(Tgchats.Worker, [arg1, arg2, arg3]),
-      worker(Tgchats, [])
+      worker(Tgchats, [table])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
