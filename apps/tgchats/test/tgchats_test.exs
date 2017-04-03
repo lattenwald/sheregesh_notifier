@@ -17,21 +17,27 @@ defmodule TgchatsChatsTest do
     }
 
     assert Tgchats.list_chats == []
+    assert Tgchats.consistent?()
+
     assert Tgchats.add_chat(chat) == :ok
     assert Tgchats.list_chats == [chat]
     assert Tgchats.get_chat(1) == chat
     assert Tgchats.get_chat(2) == nil
+    assert Tgchats.consistent?()
 
     assert Tgchats.remove_chat(chat) == :ok
     assert Tgchats.list_chats == []
     assert Tgchats.get_chat(1) == nil
+    assert Tgchats.consistent?()
 
     assert Tgchats.add_chat(chat) == :ok
     assert Tgchats.list_chats == [chat]
+    assert Tgchats.consistent?()
 
     assert Tgchats.remove_chat(1) == :ok
     assert Tgchats.list_chats == []
     assert Tgchats.get_chat(1) == nil
+    assert Tgchats.consistent?()
   end
 
 end
