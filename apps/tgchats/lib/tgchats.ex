@@ -2,24 +2,29 @@ defmodule Tgchats do
   use GenServer
   require Logger
 
+  @ets_table __MODULE__
+
   def start_link(table_name) do
     GenServer.start_link(__MODULE__, table_name, name: __MODULE__)
   end
 
   def add_chat(chat) do
-    GenServer.cast(__MODULE__, {:add_chat, chat})
+    GenServer.call(__MODULE__, {:add_chat, chat})
   end
 
   def list_chats() do
-    GenServer.call(__MODULE__, :list_chats)
+    :ets.foldl(fn {_chat_id, chat}, acc -> [chat|acc] end, [], @ets_table)
   end
 
   def get_chat(chat_id) do
-    GenServer.call(__MODULE__, {:get_chat, chat_id})
+    case :ets.lookup(@ets_table, chat_id) do
+      [{^chat_id, c}] -> c
+      _ -> nil
+    end
   end
 
   def remove_chat(id) when is_number(id) do
-    GenServer.cast(__MODULE__, {:remove_chat, id})
+    GenServer.call(__MODULE__, {:remove_chat, id})
   end
 
   def remove_chat(chat) do
@@ -34,48 +39,35 @@ defmodule Tgchats do
   def init(table_name) do
     Logger.debug "Starting #{__MODULE__}"
     {:ok, dets} = :dets.open_file(table_name, type: :set)
-    ets = :ets.new(table_name, [:set, :protected])
+    ets = :ets.new(@ets_table, [:set, :named_table, :protected]) |> IO.inspect
 
     :dets.to_ets(dets, ets)
     |> case do
          {:error, err} -> {:stop, err}
-         _             -> {:ok, {dets, ets}}
+         _             -> {:ok, dets}
        end
   end
 
-  def handle_cast({:add_chat, chat}, state={dets, ets}) do
+  def handle_call({:add_chat, chat}, _from, dets) do
     Logger.debug "#{__MODULE__} adding chat #{inspect chat}"
     data = {chat.id, chat}
     :ok  = :dets.insert(dets, data)
-    true = :ets.insert(ets, data)
-    {:noreply, state}
+    true = :ets.insert(@ets_table, data)
+    {:reply, :ok, dets}
   end
 
-  def handle_cast({:remove_chat, chat_id}, state={dets, ets}) do
+  def handle_call({:remove_chat, chat_id}, _from, dets) do
     Logger.debug "#{__MODULE__} removing chat #{chat_id}"
     :ok = :dets.delete(dets, chat_id)
-    true = :ets.delete(ets, chat_id)
-    {:noreply, state}
+    true = :ets.delete(@ets_table, chat_id)
+    {:reply, :ok, dets}
   end
 
-  def handle_call(:list_chats, _from, state={_, ets}) do
-    chats = :ets.foldl(fn {_chat_id, chat}, acc -> [chat|acc] end, [], ets)
-    {:reply, chats, state}
-  end
-
-  def handle_call({:get_chat, chat_id}, _from, state={_, ets}) do
-    chat = case :ets.lookup(ets, chat_id) do
-             [{^chat_id, c}] -> c
-             _ -> nil
-           end
-    {:reply, chat, state}
-  end
-
-  def handle_call(:assert_consistent, _from, state={dets, ets}) do
+  def handle_call(:assert_consistent, _from, dets) do
     dets_chats = :dets.foldl(fn ({chat_id, chat}, acc) -> Map.put(acc, chat_id, chat) end, %{}, dets)
-    ets_chats = :ets.foldl(fn {chat_id, chat}, acc -> Map.put(acc, chat_id, chat) end, %{}, ets)
+    ets_chats = :ets.foldl(fn {chat_id, chat}, acc -> Map.put(acc, chat_id, chat) end, %{}, @ets_table)
     result = Map.equal?(dets_chats, ets_chats)
-    {:reply, result, state}
+    {:reply, result, dets}
   end
 
   def terminate(_reason, {dets, _ets}) do
