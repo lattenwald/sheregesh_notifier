@@ -19,10 +19,27 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
+# compiled files
 *.beam
+
+# emacs artifacts
 *\#*
+
+# programming process artifacts
 *.bak
+
+# secrets
 /config/*secret.exs
+
+# dets tables
 /tgchats
 /storage
+
+# deploy artifacts
 /.deliver/releases/
+
+# pandex artifacts
+.temp
+
+# testing artifacts
+tgchats_test
