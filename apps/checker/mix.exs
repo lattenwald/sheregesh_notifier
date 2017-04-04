@@ -3,7 +3,7 @@ defmodule Checker.Mixfile do
 
   def project do
     [app: :checker,
-     version: "0.1.0",
+     version: append_revision("0.1.0"),
      build_path: "../../_build",
      config_path: "../../config/config.exs",
      deps_path: "../../deps",
@@ -43,4 +43,13 @@ defmodule Checker.Mixfile do
      {:pandex, github: "lattenwald/pandex"},
      {:timex, "~> 3.1"}]
   end
+
+  def append_revision(version), do: "#{version}+#{revision()}"
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.trim_trailing()
+  end
+
 end
