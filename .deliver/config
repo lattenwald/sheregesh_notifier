@@ -1,5 +1,8 @@
 APP="checker"
 
+SKIP_GIT_CLEAN="true"
+SKIP_MIX_CLEAN="true"
+
 BUILD_HOST="ub"
 BUILD_USER="erlbuild"
 BUILD_AT="/home/$BUILD_USER/edeliver/$APP/builds"
