@@ -37,6 +37,7 @@ erl_crash.dump
 
 # deploy artifacts
 /.deliver/releases/
+/rel/*/**
 
 # pandex artifacts
 .temp

@@ -2,12 +2,18 @@ APP="checker"
 
 BUILD_HOST="ub"
 BUILD_USER="erlbuild"
-BUILD_AT="/tmp/edeliver/sheregesh/builds"
+BUILD_AT="/home/$BUILD_USER/edeliver/$APP/builds"
+
+# for umbrella project
+RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
 
 STAGING_HOSTS="ub"
 STAGING_USER="erl"
+TEST_AT="/home/$STAGING_USER/edeliver_staging/$APP"
+
+PRODUCTION_HOSTS="ub"
+PRODUCTION_USER="erl"
 DELIVER_TO="/home/erl"
-RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
 
 pre_erlang_get_and_update_deps() {
   local _prod_secret_path="/home/erlbuild/secrets/sheregesh.secret.exs"
