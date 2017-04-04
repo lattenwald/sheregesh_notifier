@@ -5,7 +5,6 @@ defmodule Checker.Sheregeshsu do
     Logger.info "#{__MODULE__} fetching data"
     with {:ok, 200, _headers, client} <- :hackney.request(:get, "http://sheregesh.su/svodki", [], "", timeout: 600000),
          {:ok, body} <- :hackney.body(client) do
-      body
       latest = Regex.named_captures(
         ~r{(?<content><div [^>]*views-row-first".*?<div [^>]*views-field-created\b.*?<span[^>]*?>(?<day>\d\d?)\.(?<month>\d\d?)\.(?<year>\d+).*?)<div [^>]*views\-row\-2}s,
         body
