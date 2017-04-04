@@ -1,4 +1,4 @@
-APP="sheregesh"
+APP="checker"
 
 BUILD_HOST="ub"
 BUILD_USER="erlbuild"
