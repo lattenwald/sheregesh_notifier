@@ -1,4 +1,4 @@
-APP="sheregesh"
+APP="checker"
 
 SKIP_GIT_CLEAN="true"
 SKIP_MIX_CLEAN="true"

@@ -8,7 +8,7 @@ Path.join(["rel", "plugins", "*.exs"])
 
 use Mix.Releases.Config,
     # This sets the default release built by `mix release`
-    default_release: :default,
+    default_release: :checker,
     # This sets the default environment used by `mix release`
     default_environment: Mix.env()
 
@@ -38,12 +38,23 @@ end
 # when running `mix release`, the first release in the file
 # will be used by default
 
-release :sheregesh do
+release :combined do
   set version: "0.1.0"
-  set applications: [
-    checker: :permanent,
-    notifier: :permanent,
-    storage: :permanent,
-    tgchats: :permanent
-  ]
+  set applications: [ :checker, :notifier, :storage, :tgchats ]
+end
+
+release :checker do
+  set version: current_version(:checker)
+end
+
+release :notifier do
+  set version: current_version(:notifier)
+end
+
+release :storage do
+  set version: current_version(:storage)
+end
+
+release :tgchats do
+  set version: current_version(:tgchats)
 end
