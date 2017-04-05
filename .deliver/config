@@ -1,14 +1,14 @@
 APP="checker"
 
-SKIP_GIT_CLEAN="true"
-SKIP_MIX_CLEAN="true"
+# SKIP_GIT_CLEAN="true"
+# SKIP_MIX_CLEAN="true"
 
 BUILD_HOST="ub"
 BUILD_USER="erlbuild"
 BUILD_AT="/home/$BUILD_USER/edeliver/$APP/builds"
 
 # for umbrella project
-# RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
+# RELEASE_DIR="$BUILD_AT/rel/$APP"
 
 STAGING_HOSTS="ub"
 STAGING_USER="erl"
