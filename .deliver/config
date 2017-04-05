@@ -1,11 +1,22 @@
-APP="sheregesh"
+APP="checker"
+
+# SKIP_GIT_CLEAN="true"
+# SKIP_MIX_CLEAN="true"
 
 BUILD_HOST="ub"
 BUILD_USER="erlbuild"
-BUILD_AT="/tmp/edeliver/sheregesh/builds"
+BUILD_AT="/home/$BUILD_USER/edeliver/$APP/builds"
+
+# for umbrella project
+# RELEASE_DIR="$BUILD_AT/rel/$APP"
+RELEASE_DIR="$BUILD_AT/_build/$TARGET_MIX_ENV/rel/$APP"
 
 STAGING_HOSTS="ub"
 STAGING_USER="erl"
+TEST_AT="/home/$STAGING_USER/edeliver_staging/$APP"
+
+PRODUCTION_HOSTS="ub"
+PRODUCTION_USER="erl"
 DELIVER_TO="/home/erl"
 
 pre_erlang_get_and_update_deps() {

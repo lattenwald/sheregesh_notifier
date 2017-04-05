@@ -3,7 +3,7 @@ defmodule Tgchats.Mixfile do
 
   def project do
     [app: :tgchats,
-     version: "0.1.1",
+     version: append_revision("0.1.1"),
      build_path: "../../_build",
      config_path: "../../config/config.exs",
      deps_path: "../../deps",
@@ -46,4 +46,13 @@ defmodule Tgchats.Mixfile do
       test: "test --no-start"
     ]
   end
+
+  def append_revision(version), do: "#{version}+#{revision()}"
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.trim_trailing()
+  end
+
 end

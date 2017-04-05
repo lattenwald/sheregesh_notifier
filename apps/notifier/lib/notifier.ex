@@ -14,16 +14,19 @@ defmodule Notifier do
              "private" -> opts
              _         -> [{:disable_notification, true} | opts]
            end
-    spawn fn ->
-      {:ok, _} = Nadia.send_message(
-        chat.id, """
-        *#{key}* #{date}
 
-        #{data}
-        """,
+    send_message(
+      chat, """
+      *#{key}* #{date}
+
+      #{data}
+      """,
       opts
     )
-    end
+  end
+
+  def send_message(chat, message, opts \\ []) do
+    spawn fn -> {:ok, _} = Nadia.send_message(chat.id, message, opts) end
   end
 
 end
