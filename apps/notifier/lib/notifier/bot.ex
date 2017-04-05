@@ -47,6 +47,17 @@ defmodule Notifier.Bot do
     Tgchats.remove_chat(chat)
   end
 
+  def react(:message, _chat_id, %{chat: chat, text: "/version" <> rest})
+  when rest in ["", "@#{@bot}"] do
+    str =
+      [:checker, :notifier, :tgchats, :storage]
+      |> Stream.map(fn app -> {app, Application.spec(app)[:vsn]} end)
+      |> Stream.map(fn {app, vsn} -> "#{app} #{vsn}" end)
+      |> Enum.join("\n")
+
+    Notifier.send_message(chat, str)
+  end
+
   def react(_, _, _), do: :ok
 
   ########### callbacks
