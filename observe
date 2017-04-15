@@ -1,0 +1,2 @@
+#!/bin/sh
+erl -name observer@127.0.0.1 -setcookie shrgsh -hidden -run observer
