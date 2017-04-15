@@ -37,7 +37,7 @@ defmodule Tgchats do
 
   ########## callbacks
   def init(table_name) do
-    Logger.debug "Starting #{__MODULE__}"
+    Logger.debug "Starting #{__MODULE__} with table #{inspect table_name}"
     {:ok, dets} = :dets.open_file(table_name, type: :set)
     ets = :ets.new(@ets_table, [:set, :named_table, :protected]) |> IO.inspect
 

@@ -8,11 +8,13 @@ defmodule Storage.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    table = Application.get_env(:storage, :table, :storage)
+
     # Define workers and child supervisors to be supervised
     children = [
       # Starts a worker by calling: Storage.Worker.start_link(arg1, arg2, arg3)
       # worker(Storage.Worker, [arg1, arg2, arg3]),
-      worker(Storage, []),
+      worker(Storage, [table]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -44,3 +44,4 @@ erl_crash.dump
 
 # testing artifacts
 tgchats_test
+storage_test

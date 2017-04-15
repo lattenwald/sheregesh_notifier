@@ -1,10 +1,8 @@
 defmodule Storage do
-  @table :storage
-
   use GenServer
   require Logger
 
-  def start_link(table_name \\ @table) do
+  def start_link(table_name) do
     GenServer.start_link(__MODULE__, table_name, name: __MODULE__)
   end
 
@@ -18,7 +16,7 @@ defmodule Storage do
 
   ###### callbacks
   def init(table_name) do
-    Logger.debug "Starting #{__MODULE__}"
+    Logger.debug "Starting #{__MODULE__} with table #{inspect table_name}"
     {:ok, table} = :dets.open_file(table_name, type: :set)
     {:ok, table}
   end
