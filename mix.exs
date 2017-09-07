@@ -23,7 +23,7 @@ defmodule Sheregesh.Mixfile do
   defp deps do
     [
       {:edeliver, "~> 1.4"},
-      {:distillery, "~> 1.2"},
+      {:distillery, "~> 1.5"},
     ]
   end
 end
