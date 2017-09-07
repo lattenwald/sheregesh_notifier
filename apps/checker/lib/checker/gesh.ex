@@ -38,18 +38,14 @@ defmodule Checker.Gesh do
   end
 
   ### helpers
-  defp str_to_month("январ" <> _), do: {:ok, 1}
-  defp str_to_month("февра" <> _), do: {:ok, 2}
-  defp str_to_month("март"  <> _), do: {:ok, 3}
-  defp str_to_month("апрел" <> _), do: {:ok, 4}
-  defp str_to_month("ма"    <> _), do: {:ok, 5}
-  defp str_to_month("июн"   <> _), do: {:ok, 6}
-  defp str_to_month("июл"   <> _), do: {:ok, 7}
-  defp str_to_month("авгус" <> _), do: {:ok, 8}
-  defp str_to_month("сентя" <> _), do: {:ok, 9}
-  defp str_to_month("октяб" <> _), do: {:ok, 10}
-  defp str_to_month("ноябр" <> _), do: {:ok, 11}
-  defp str_to_month("декаб" <> _), do: {:ok, 12}
-  defp str_to_month(_), do: :error
+  defp str_to_month(str) do
+    ~w(январ февра март апрел ма июн июл авгус сентя октяб ноябр декаб)
+    |> Enum.zip(1 .. 12)
+    |> Enum.find(fn {m, _} -> String.starts_with?(str, m) end)
+    |> case do
+         {_, n} -> {:ok, n}
+         nil -> :error
+       end
+  end
 
 end
